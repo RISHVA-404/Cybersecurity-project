@@ -1,5 +1,7 @@
 # SentinelMesh — Adaptive Hybrid Network Security & Attack Containment Platform
 
+🎉 **[CLICK HERE TO VIEW THE LIVE PROJECT DEMO](https://RISHVA-404.github.io/Cybersecurity-project/)** 🎉
+
 SentinelMesh is a college-level educational cybersecurity simulation project. It provides a **Digital Security Twin** to model hybrid network architectures (campus and cloud), visualize trust zones, simulate identity and access management (IAM), and test security policies. 
 
 Its central feature is the **Blast Radius Engine**, which calculates potential propagation paths and risk scores when an asset is compromised.
