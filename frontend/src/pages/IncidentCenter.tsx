@@ -1,13 +1,45 @@
-import React, { useState } from 'react';
-import { simulateIncident } from '../services/api';
-import { AlertCircle, Target, Activity } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { simulateIncident, fetchIncidents, isolateAsset } from '../services/api';
+import { AlertCircle, Target, Activity, ShieldAlert } from 'lucide-react';
 
 export default function IncidentCenter() {
     const [result, setResult] = useState<any>(null);
+    const [incidents, setIncidents] = useState<any[]>([]);
+
+    const loadIncidents = async () => {
+        const data = await fetchIncidents();
+        setIncidents([...data]);
+    };
+
+    useEffect(() => {
+        loadIncidents();
+    }, []);
 
     const handleSimulate = async (scenario: string) => {
         const res = await simulateIncident(scenario);
         setResult(res);
+        await loadIncidents();
+    };
+
+    const handleIsolate = async (incidentId: number, assetId: number) => {
+        await isolateAsset(incidentId, assetId);
+        
+        if (result && result.incident.id === incidentId) {
+            setResult({
+                ...result,
+                incident: {
+                    ...result.incident,
+                    status: "MITIGATED"
+                },
+                blast_radius_analysis: {
+                    ...result.blast_radius_analysis,
+                    risk_score: 0,
+                    total_affected_assets: 0,
+                    propagation_paths: []
+                }
+            });
+        }
+        await loadIncidents();
     };
 
     return (
@@ -50,8 +82,18 @@ export default function IncidentCenter() {
                             <p className="text-sm text-gray-400 mb-4">{result.incident.description}</p>
                             
                             <div className="bg-gray-950 p-4 rounded border border-gray-800">
-                                <p className="text-sm text-gray-500">Status: <span className="text-emerald-400 font-mono">{result.incident.status}</span></p>
+                                <p className="text-sm text-gray-500">Status: <span className={`font-mono ${result.incident.status === 'MITIGATED' ? 'text-blue-400' : 'text-emerald-400'}`}>{result.incident.status}</span></p>
                                 <p className="text-sm text-gray-500">Severity: <span className="text-red-400 font-mono">{result.incident.severity}</span></p>
+                                
+                                {result.incident.status !== 'MITIGATED' && (
+                                    <button 
+                                        onClick={() => handleIsolate(result.incident.id, result.incident.affected_asset_id)}
+                                        className="mt-4 px-4 py-2 bg-blue-600/20 border border-blue-500/50 hover:bg-blue-600/40 text-blue-400 rounded text-sm flex items-center gap-2 transition-colors"
+                                    >
+                                        <ShieldAlert size={16} />
+                                        Isolate Asset & Stop Propagation
+                                    </button>
+                                )}
                             </div>
                         </div>
 

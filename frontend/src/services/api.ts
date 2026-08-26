@@ -281,3 +281,15 @@ export const addAsset = async (name: string, type: string, criticality: number, 
     db.assets.push(newAsset);
     return simulateDelay(newAsset);
 };
+
+export const isolateAsset = async (incidentId: number, assetId: number) => {
+    const incident = db.incidents.find(i => i.id === incidentId);
+    if (incident) {
+        incident.status = "MITIGATED";
+        incident.containment_action = "Asset isolated from network. Security Groups updated.";
+    }
+    
+    // In our mock UI, we don't actually delete the asset, but we could mark it as isolated.
+    // For the UI update, returning the updated incident is enough to show mitigation.
+    return simulateDelay(incident);
+};
