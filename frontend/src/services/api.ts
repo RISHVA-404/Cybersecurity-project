@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-// Dynamically use the current hostname so it works on LAN (e.g., 192.168.x.x) or localhost
-const HOST = window.location.hostname;
-const API_URL = import.meta.env.VITE_API_URL || `http://${HOST}:8000/api`;
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
 export const fetchTopology = async () => {
     const response = await axios.get(`${API_URL}/topology`);
@@ -26,5 +24,23 @@ export const fetchRules = async () => {
 
 export const updateRuleAction = async (ruleId: number, action: string) => {
     const response = await axios.put(`${API_URL}/rules/${ruleId}?action=${action}`);
+    return response.data;
+};
+
+export const fetchUsers = async () => {
+    const response = await axios.get(`${API_URL}/users`);
+    return response.data;
+};
+
+export const fetchAssets = async () => {
+    const response = await axios.get(`${API_URL}/assets`);
+    return response.data;
+};
+
+export const evaluateIAM = async (userId: number, assetId: number) => {
+    const response = await axios.post(`${API_URL}/iam/evaluate`, {
+        user_id: userId,
+        asset_id: assetId
+    });
     return response.data;
 };
