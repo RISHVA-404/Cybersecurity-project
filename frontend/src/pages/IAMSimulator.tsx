@@ -1,28 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { AlertCircle, CheckCircle } from 'lucide-react';
-
-const API_URL = 'http://127.0.0.1:8000/api';
+import { fetchUsers, fetchAssets, evaluateIAM } from '../services/api';
 
 export default function IAMSimulator() {
-    const [users, setUsers] = useState([]);
-    const [assets, setAssets] = useState([]);
+    const [users, setUsers] = useState<any[]>([]);
+    const [assets, setAssets] = useState<any[]>([]);
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedAsset, setSelectedAsset] = useState("");
     const [result, setResult] = useState<any>(null);
 
     useEffect(() => {
-        axios.get(`${API_URL}/users`).then(res => setUsers(res.data));
-        axios.get(`${API_URL}/assets`).then(res => setAssets(res.data));
+        fetchUsers().then(setUsers);
+        fetchAssets().then(setAssets);
     }, []);
 
     const handleTestAccess = async () => {
         if (!selectedUser || !selectedAsset) return;
-        const res = await axios.post(`${API_URL}/iam/evaluate`, {
-            user_id: parseInt(selectedUser),
-            asset_id: parseInt(selectedAsset)
-        });
-        setResult(res.data);
+        const res = await evaluateIAM(parseInt(selectedUser), parseInt(selectedAsset));
+        setResult(res);
     };
 
     return (

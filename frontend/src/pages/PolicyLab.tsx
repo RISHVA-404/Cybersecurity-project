@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchRules, updateRuleAction } from '../services/api';
 
 export default function PolicyLab() {
-    const [rules, setRules] = useState([]);
+    const [rules, setRules] = useState<any[]>([]);
     
     useEffect(() => {
         loadRules();

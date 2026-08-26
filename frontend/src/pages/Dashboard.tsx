@@ -3,7 +3,7 @@ import { ShieldAlert, ShieldCheck, Activity, Target } from 'lucide-react';
 import { fetchIncidents } from '../services/api';
 
 export default function Dashboard() {
-    const [incidents, setIncidents] = useState([]);
+    const [incidents, setIncidents] = useState<any[]>([]);
 
     useEffect(() => {
         fetchIncidents().then(setIncidents);

@@ -4,8 +4,8 @@ import '@xyflow/react/dist/style.css';
 import { fetchTopology } from '../services/api';
 
 export default function Topology() {
-    const [nodes, setNodes, onNodesChange] = useNodesState([]);
-    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const [nodes, setNodes, onNodesChange] = useNodesState<any>([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState<any>([]);
 
     useEffect(() => {
         fetchTopology().then(data => {
