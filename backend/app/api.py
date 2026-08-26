@@ -10,6 +10,12 @@ import datetime
 
 router = APIRouter()
 
+@router.post("/force-seed")
+def force_seed():
+    from .main import seed_db
+    seed_db()
+    return {"message": "Database forcefully re-seeded!"}
+
 @router.get("/zones", response_model=List[schemas.Zone])
 def read_zones(db: Session = Depends(get_db)):
     return db.query(models.Zone).all()
