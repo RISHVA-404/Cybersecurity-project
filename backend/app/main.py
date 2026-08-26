@@ -48,13 +48,13 @@ def seed_db():
 
         # Create Assets
         assets_data = [
-            {"id": 1, "name": "Guest Mobile", "ip_address": "10.0.1.15", "type": "Endpoint", "criticality": 1, "zone_id": 1},
-            {"id": 2, "name": "Student Laptop", "ip_address": "10.0.2.100", "type": "Endpoint", "criticality": 3, "zone_id": 2},
-            {"id": 3, "name": "Faculty Desktop", "ip_address": "10.0.3.50", "type": "Endpoint", "criticality": 5, "zone_id": 3},
-            {"id": 4, "name": "Web Server", "ip_address": "10.0.4.10", "type": "Server", "criticality": 7, "zone_id": 4},
-            {"id": 5, "name": "K8s Cluster", "ip_address": "172.16.1.5", "type": "Container", "criticality": 8, "zone_id": 5},
-            {"id": 6, "name": "PostgreSQL Primary", "ip_address": "172.16.2.10", "type": "Database", "criticality": 10, "zone_id": 6},
-            {"id": 7, "name": "Student Records System", "ip_address": "192.168.1.50", "type": "Server", "criticality": 10, "zone_id": 7},
+            {"id": 1, "name": "Guest Mobile", "ip_address": "10.0.1.15", "asset_type": "Endpoint", "criticality": 1, "zone_id": 1},
+            {"id": 2, "name": "Student Laptop", "ip_address": "10.0.2.100", "asset_type": "Endpoint", "criticality": 3, "zone_id": 2},
+            {"id": 3, "name": "Faculty Desktop", "ip_address": "10.0.3.50", "asset_type": "Endpoint", "criticality": 5, "zone_id": 3},
+            {"id": 4, "name": "Web Server", "ip_address": "10.0.4.10", "asset_type": "Server", "criticality": 7, "zone_id": 4},
+            {"id": 5, "name": "K8s Cluster", "ip_address": "172.16.1.5", "asset_type": "Container", "criticality": 8, "zone_id": 5},
+            {"id": 6, "name": "PostgreSQL Primary", "ip_address": "172.16.2.10", "asset_type": "Database", "criticality": 10, "zone_id": 6},
+            {"id": 7, "name": "Student Records System", "ip_address": "192.168.1.50", "asset_type": "Server", "criticality": 10, "zone_id": 7},
         ]
         for a in assets_data:
             db.add(models.Asset(**a))
