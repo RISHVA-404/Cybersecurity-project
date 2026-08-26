@@ -20,31 +20,41 @@ app.include_router(api.router, prefix="/api")
 
 def seed_db():
     db = SessionLocal()
-    if not db.query(models.Zone).first():
+    
+    # Force clean state if things are out of sync
+    if not db.query(models.Asset).first() or not db.query(models.User).first():
+        # Clean existing data
+        db.query(models.Incident).delete()
+        db.query(models.SecurityRule).delete()
+        db.query(models.Asset).delete()
+        db.query(models.User).delete()
+        db.query(models.Role).delete()
+        db.query(models.Zone).delete()
+        db.commit()
+
         # Create Zones
         zones_data = [
-            {"name": "Public Guest Wi-Fi", "trust_level": 1, "description": "Unsecured public zone"},
-            {"name": "Student Zone", "trust_level": 3, "description": "Authenticated students"},
-            {"name": "Faculty Zone", "trust_level": 5, "description": "Faculty and staff devices"},
-            {"name": "Campus DMZ", "trust_level": 4, "description": "Internet facing services"},
-            {"name": "Application VPC (Cloud)", "trust_level": 7, "description": "Cloud native apps"},
-            {"name": "Database VPC (Cloud)", "trust_level": 9, "description": "Sensitive DB cluster"},
-            {"name": "Private Data Center", "trust_level": 10, "description": "Highly restricted internal IT"}
+            {"id": 1, "name": "Public Guest Wi-Fi", "trust_level": 1, "description": "Unsecured public zone"},
+            {"id": 2, "name": "Student Zone", "trust_level": 3, "description": "Authenticated students"},
+            {"id": 3, "name": "Faculty Zone", "trust_level": 5, "description": "Faculty and staff devices"},
+            {"id": 4, "name": "Campus DMZ", "trust_level": 4, "description": "Internet facing services"},
+            {"id": 5, "name": "Application VPC (Cloud)", "trust_level": 7, "description": "Cloud native apps"},
+            {"id": 6, "name": "Database VPC (Cloud)", "trust_level": 9, "description": "Sensitive DB cluster"},
+            {"id": 7, "name": "Private Data Center", "trust_level": 10, "description": "Highly restricted internal IT"}
         ]
-        
         for z in zones_data:
             db.add(models.Zone(**z))
         db.commit()
 
         # Create Assets
         assets_data = [
-            {"name": "Guest Mobile", "ip_address": "10.0.1.15", "type": "Endpoint", "criticality": 1, "zone_id": 1},
-            {"name": "Student Laptop", "ip_address": "10.0.2.100", "type": "Endpoint", "criticality": 3, "zone_id": 2},
-            {"name": "Faculty Desktop", "ip_address": "10.0.3.50", "type": "Endpoint", "criticality": 5, "zone_id": 3},
-            {"name": "Web Server", "ip_address": "10.0.4.10", "type": "Server", "criticality": 7, "zone_id": 4},
-            {"name": "K8s Cluster", "ip_address": "172.16.1.5", "type": "Container", "criticality": 8, "zone_id": 5},
-            {"name": "PostgreSQL Primary", "ip_address": "172.16.2.10", "type": "Database", "criticality": 10, "zone_id": 6},
-            {"name": "Student Records System", "ip_address": "192.168.1.50", "type": "Server", "criticality": 10, "zone_id": 7},
+            {"id": 1, "name": "Guest Mobile", "ip_address": "10.0.1.15", "type": "Endpoint", "criticality": 1, "zone_id": 1},
+            {"id": 2, "name": "Student Laptop", "ip_address": "10.0.2.100", "type": "Endpoint", "criticality": 3, "zone_id": 2},
+            {"id": 3, "name": "Faculty Desktop", "ip_address": "10.0.3.50", "type": "Endpoint", "criticality": 5, "zone_id": 3},
+            {"id": 4, "name": "Web Server", "ip_address": "10.0.4.10", "type": "Server", "criticality": 7, "zone_id": 4},
+            {"id": 5, "name": "K8s Cluster", "ip_address": "172.16.1.5", "type": "Container", "criticality": 8, "zone_id": 5},
+            {"id": 6, "name": "PostgreSQL Primary", "ip_address": "172.16.2.10", "type": "Database", "criticality": 10, "zone_id": 6},
+            {"id": 7, "name": "Student Records System", "ip_address": "192.168.1.50", "type": "Server", "criticality": 10, "zone_id": 7},
         ]
         for a in assets_data:
             db.add(models.Asset(**a))
@@ -63,15 +73,14 @@ def seed_db():
             db.add(models.SecurityRule(**r))
         db.commit()
 
-    if not db.query(models.Role).first():
         # Create Roles
         roles_data = [
-            {"name": "Guest", "permissions": "read:public"},
-            {"name": "Student", "permissions": "read:public,read:student"},
-            {"name": "Faculty", "permissions": "read:public,read:student,read:faculty"},
-            {"name": "IT Admin", "permissions": "all"},
-            {"name": "Security Analyst", "permissions": "read:all"},
-            {"name": "Cloud Engineer", "permissions": "read:cloud,write:cloud"}
+            {"id": 1, "name": "Guest", "permissions": "read:public"},
+            {"id": 2, "name": "Student", "permissions": "read:public,read:student"},
+            {"id": 3, "name": "Faculty", "permissions": "read:public,read:student,read:faculty"},
+            {"id": 4, "name": "IT Admin", "permissions": "all"},
+            {"id": 5, "name": "Security Analyst", "permissions": "read:all"},
+            {"id": 6, "name": "Cloud Engineer", "permissions": "read:cloud,write:cloud"}
         ]
         for r in roles_data:
             db.add(models.Role(**r))
