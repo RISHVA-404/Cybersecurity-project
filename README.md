@@ -1,70 +1,42 @@
-# SentinelMesh — Adaptive Hybrid Network Security & Attack Containment Platform
+# SentinelMesh — Secure Hybrid Datacenter Architecture
 
-🎉 **[CLICK HERE TO VIEW THE LIVE PROJECT DEMO](https://RISHVA-404.github.io/Cybersecurity-project/)** 🎉
+🎉 **[CLICK HERE TO VIEW THE LIVE INTERACTIVE PROJECT]** (https://rishva-404.github.io/Cybersecurity-project/) 🎉
 
-SentinelMesh is a college-level educational cybersecurity simulation project. It provides a **Digital Security Twin** to model hybrid network architectures (campus and cloud), visualize trust zones, simulate identity and access management (IAM), and test security policies. 
+SentinelMesh is a specialized cybersecurity simulation designed to solve the challenges of **Secure Hybrid Datacenter Network Architecture**. 
 
-Its central feature is the **Blast Radius Engine**, which calculates potential propagation paths and risk scores when an asset is compromised.
+As enterprise applications transition to hybrid workloads (spanning private data centers and public clouds like AWS/GCP), this project demonstrates how to securely orchestrate Kubernetes microservices (EKS/GKE/OpenShift) while balancing simplicity, security, and scale.
 
-> **Disclaimer:** This project is entirely a **defensive simulation**. It uses synthetic, locally generated data to visualize security boundaries and enforce policies. It does NOT perform real attacks, unauthorized scanning, exploitation, credential attacks, or attacks against external systems.
+## 🎯 Problem Statement & Solutions
 
-## Key Features
+This platform was built to directly address the following architectural challenges:
 
-1. **Digital Security Twin (Network Topology):** An interactive React Flow graph showing Campus Networks, DMZs, Cloud VPCs, and their allowed communication channels.
-2. **Blast Radius Engine:** An original algorithm that determines the potential spread of an incident across trust boundaries using BFS graph traversal.
-3. **What-If Security Simulator (Policy Lab):** A real-time simulator where administrators can toggle security rules (Allow/Deny) and immediately observe changes in attack surface and risk scores.
-4. **IAM Simulator:** Tests role-based access control and least-privilege principles by evaluating user clearance against a zone's required trust level.
-5. **Incident Response Simulator:** Simulates anomalous behavior, lateral movement attempts, and compromised assets to trigger the containment workflow.
+### 1. How should IAM function?
+**Solution:** (View the **IAM Simulator**)
+The project implements a Zero-Trust Role-Based Access Control (RBAC) model. Faculty, students, and network engineers are dynamically evaluated based on Clearance Levels. The system ensures that users working remotely or on-campus have secure, uninterrupted access to teaching tools, while simultaneously blocking unauthorized access to sensitive hybrid workloads.
 
-## Tech Stack
+### 2. What kind of security groups must be utilized?
+**Solution:** (View the **Policy Lab**)
+The project demonstrates the use of strict, port-level Security Group policies. Instead of traditional perimeter security, policies are applied between micro-segments. You can toggle ALLOW/DENY rules in real-time to see how security groups govern traffic between the public cloud VPCs and the private datacenter.
 
-* **Backend:** Python, FastAPI, SQLAlchemy, NetworkX, SQLite
-* **Frontend:** React (Vite), TypeScript, Tailwind CSS, React Flow, Recharts
+### 3. How can applications be segmented in VPCs to mitigate attack spreading?
+**Solution:** (View the **Security Twin** & **Incident Center**)
+The platform maps the infrastructure into distinct Trust Zones (e.g., Campus DMZ, Application VPC, Private Data Center). If a single Kubernetes microservice is compromised, you can use the **Incident Center** to simulate the attack. The custom *Blast Radius Engine* calculates the spread, proving that strict VPC segmentation actively mitigates the attack and prevents it from propagating into the enterprise network.
 
-## Architecture
+---
 
-SentinelMesh uses a modular architecture:
-- **Models:** Defines `Zone`, `Asset`, `User`, `Role`, `SecurityRule`, and `Incident`.
-- **Engine:** `BlastRadiusEngine` constructs a directed graph of network topology and security rules to calculate risk.
-- **API:** RESTful endpoints for the frontend to interact with the simulated environment.
-- **Frontend UI:** Professional SOC-style interface for monitoring and policy configuration.
+## 🧪 How to Test This Project (For Evaluators)
 
-## Getting Started
+This live environment is a fully functional simulation where you can input data, trigger attacks, and observe how the hybrid security architecture responds.
 
-### Prerequisites
-- Python 3.11+
-- Node.js 24+
+1. **Visualize the Network Topology:** Navigate to the **Security Twin** tab to view the interactive node-graph mapping the infrastructure across 7 security zones. Green lines represent active security group rules.
+2. **Simulate a Cyberattack:** Navigate to the **Incident Center** tab. Click **"Simulate New Incident"** to watch the Blast Radius Engine calculate how segmentation limits the spread of malware.
+3. **Evaluate Access Control:** Navigate to the **IAM Simulator** tab. Select a User Role (e.g., Faculty) and a Target Asset (e.g., Database VPC) to see how hybrid IAM policies enforce Least Privilege.
 
-### Backend Setup
-```bash
-cd backend
-python -m venv venv
-# On Windows: .\venv\Scripts\activate
-# On Unix: source venv/bin/activate
-pip install fastapi uvicorn sqlalchemy pydantic networkx
-uvicorn app.main:app --reload --port 8000
-```
-*Note: The SQLite database (`sentinelmesh.db`) is automatically seeded with fictional zones, assets, and rules on the first run.*
+## 🛠️ Tech Stack & Architecture
 
-### Frontend Setup
-```bash
-cd frontend
-npm install
-npm run dev
-```
+- **Frontend:** React 18, TypeScript, Tailwind CSS
+- **Visualization:** React Flow (for node-based network mapping)
+- **Data Engine:** Serverless Simulation Engine (TypeScript implementation of the Blast Radius Algorithm)
+- **Deployment:** GitHub Pages
 
-## Usage
-
-1. **Dashboard:** View overall security posture, active incidents, and recent security events.
-2. **Security Twin:** Visualize the network topology. Green animated lines represent allowed connections across trust boundaries.
-3. **Policy Lab:** Toggle rules between ALLOW and DENY. Observe how turning off segmentation increases the risk surface in the network.
-4. **IAM Simulator:** Test if a user's role grants them clearance to access an asset based on the asset's underlying zone trust level.
-5. **Incident Center:** Trigger synthetic incidents (e.g., "Compromised Application") and analyze the blast radius report.
-
-## Future Enhancements
-- Integration with live log ingestion (e.g., ELK stack).
-- More complex pathfinding algorithms factoring in specific port/protocol vulnerabilities.
-- Multi-factor authentication (MFA) simulation states.
-
-## Author
-College Cybersecurity Capstone / Simulation Project
+*Note: This repository contains the complete source code. The live demo has been compiled into a serverless Edge application for seamless browser execution and evaluation.*
