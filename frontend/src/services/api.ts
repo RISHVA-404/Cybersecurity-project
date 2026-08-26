@@ -264,3 +264,20 @@ export const evaluateIAM = async (userId: number, assetId: number) => {
         required_trust
     });
 };
+
+export const fetchZones = async () => {
+    return simulateDelay(db.zones);
+};
+
+export const addAsset = async (name: string, type: string, criticality: number, zone_id: number) => {
+    const newAsset = {
+        id: db.assets.length + 1,
+        name,
+        ip_address: `10.10.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
+        type,
+        criticality,
+        zone_id
+    };
+    db.assets.push(newAsset);
+    return simulateDelay(newAsset);
+};

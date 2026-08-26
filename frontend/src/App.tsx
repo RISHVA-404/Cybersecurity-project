@@ -5,6 +5,7 @@ import Topology from './pages/Topology';
 import IncidentCenter from './pages/IncidentCenter';
 import PolicyLab from './pages/PolicyLab';
 import IAMSimulator from './pages/IAMSimulator';
+import AssetManager from './pages/AssetManager';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/policy-lab" element={<PolicyLab />} />
             <Route path="/incidents" element={<IncidentCenter />} />
             <Route path="/iam" element={<IAMSimulator />} />
+            <Route path="/deploy" element={<AssetManager />} />
             <Route path="/logs" element={<div className="p-8 text-white">Logs coming soon</div>} />
             <Route path="/settings" element={<div className="p-8 text-white">Settings coming soon</div>} />
           </Routes>

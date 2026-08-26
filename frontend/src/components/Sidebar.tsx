@@ -1,17 +1,18 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Shield, Activity, Network, ShieldAlert, FileText, Settings, Users } from 'lucide-react';
+import { Shield, Activity, Network, ShieldAlert, FileText, Settings, Users, Server, AlertTriangle } from 'lucide-react';
 
 export default function Sidebar() {
     const location = useLocation();
 
     const menuItems = [
-        { name: 'Dashboard', path: '/', icon: <Activity size={20} /> },
-        { name: 'Security Twin', path: '/topology', icon: <Network size={20} /> },
-        { name: 'Policy Lab', path: '/policy-lab', icon: <Shield size={20} /> },
-        { name: 'IAM Simulator', path: '/iam', icon: <Users size={20} /> },
-        { name: 'Incident Center', path: '/incidents', icon: <ShieldAlert size={20} /> },
-        { name: 'Security Logs', path: '/logs', icon: <FileText size={20} /> },
-        { name: 'Settings', path: '/settings', icon: <Settings size={20} /> },
+        { path: '/', name: 'Dashboard', icon: <Activity size={20} /> },
+        { path: '/topology', name: 'Security Twin', icon: <Network size={20} /> },
+        { path: '/deploy', name: 'Asset Deployment', icon: <Server size={20} /> },
+        { path: '/policy-lab', name: 'Policy Lab', icon: <Shield size={20} /> },
+        { path: '/iam', name: 'IAM Simulator', icon: <Users size={20} /> },
+        { path: '/incidents', name: 'Incident Center', icon: <ShieldAlert size={20} /> },
+        { path: '/logs', name: 'Security Logs', icon: <FileText size={20} /> },
+        { path: '/settings', name: 'Settings', icon: <Settings size={20} /> },
     ];
 
     return (
