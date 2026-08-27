@@ -1,47 +1,44 @@
 // Local in-memory database simulating the backend
 
-let db = {
+const db = {
     zones: [
-        { id: 1, name: "Public Guest Wi-Fi", trust_level: 1, description: "Unsecured public zone" },
-        { id: 2, name: "Student Zone", trust_level: 3, description: "Authenticated students" },
-        { id: 3, name: "Faculty Zone", trust_level: 5, description: "Faculty and staff devices" },
-        { id: 4, name: "Campus DMZ", trust_level: 4, description: "Internet facing services" },
-        { id: 5, name: "Application VPC (Cloud)", trust_level: 7, description: "Cloud native apps" },
-        { id: 6, name: "Database VPC (Cloud)", trust_level: 9, description: "Sensitive DB cluster" },
-        { id: 7, name: "Private Data Center", trust_level: 10, description: "Highly restricted internal IT" }
+        { id: 10, name: "Faculty Network (VLAN 10)", trust_level: 3, description: "Faculty PCs" },
+        { id: 20, name: "Application A (VLAN 20)", trust_level: 6, description: "App A servers" },
+        { id: 30, name: "Application B (VLAN 30)", trust_level: 6, description: "App B servers" },
+        { id: 40, name: "Database (VLAN 40)", trust_level: 10, description: "Secure Database" },
+        { id: 50, name: "DMZ (VLAN 50)", trust_level: 1, description: "Public-facing DMZ" },
+        { id: 99, name: "Management (VLAN 99)", trust_level: 10, description: "Network Administration" },
+        { id: 100, name: "Cloud App Network", trust_level: 7, description: "Cloud workloads" }
     ],
     assets: [
-        { id: 1, name: "Guest Mobile", ip_address: "10.0.1.15", type: "Endpoint", criticality: 1, zone_id: 1 },
-        { id: 2, name: "Student Laptop", ip_address: "10.0.2.100", type: "Endpoint", criticality: 3, zone_id: 2 },
-        { id: 3, name: "Faculty Desktop", ip_address: "10.0.3.50", type: "Endpoint", criticality: 5, zone_id: 3 },
-        { id: 4, name: "Web Server", ip_address: "10.0.4.10", type: "Server", criticality: 7, zone_id: 4 },
-        { id: 5, name: "K8s Cluster", ip_address: "172.16.1.5", type: "Container", criticality: 8, zone_id: 5 },
-        { id: 6, name: "PostgreSQL Primary", ip_address: "172.16.2.10", type: "Database", criticality: 10, zone_id: 6 },
-        { id: 7, name: "Student Records System", ip_address: "192.168.1.50", type: "Server", criticality: 10, zone_id: 7 },
+        { id: 1, name: "FACULTY-PC1", ip_address: "192.168.10.10", type: "Endpoint", criticality: 3, zone_id: 10 },
+        { id: 2, name: "FACULTY-PC2", ip_address: "192.168.10.11", type: "Endpoint", criticality: 3, zone_id: 10 },
+        { id: 3, name: "APP-A-SERVER", ip_address: "192.168.20.10", type: "Server", criticality: 7, zone_id: 20 },
+        { id: 4, name: "APP-B-SERVER", ip_address: "192.168.30.10", type: "Server", criticality: 7, zone_id: 30 },
+        { id: 5, name: "DB-SERVER", ip_address: "192.168.40.10", type: "Database", criticality: 10, zone_id: 40 },
+        { id: 6, name: "DMZ-SERVER", ip_address: "192.168.50.10", type: "Server", criticality: 4, zone_id: 50 },
+        { id: 7, name: "MGMT-PC", ip_address: "192.168.99.10", type: "Endpoint", criticality: 9, zone_id: 99 },
+        { id: 8, name: "CLOUD-APP", ip_address: "172.16.10.10", type: "Container", criticality: 8, zone_id: 100 }
     ],
     rules: [
-        { id: 1, source_zone_id: 1, dest_zone_id: 4, protocol: "HTTPS", port: "443", action: "ALLOW", priority: 100 },
-        { id: 2, source_zone_id: 1, dest_zone_id: 6, protocol: "ANY", port: "ANY", action: "DENY", priority: 50 },
-        { id: 3, source_zone_id: 2, dest_zone_id: 5, protocol: "HTTPS", port: "443", action: "ALLOW", priority: 100 },
-        { id: 4, source_zone_id: 3, dest_zone_id: 7, protocol: "TCP", port: "3389", action: "ALLOW", priority: 100 },
-        { id: 5, source_zone_id: 4, dest_zone_id: 5, protocol: "API", port: "8080", action: "ALLOW", priority: 100 },
-        { id: 6, source_zone_id: 5, dest_zone_id: 6, protocol: "TCP", port: "5432", action: "ALLOW", priority: 100 },
+        { id: 1, source_zone_id: 20, dest_zone_id: 30, protocol: "TCP", port: "ANY", action: "DENY", priority: 100 },
+        { id: 2, source_zone_id: 10, dest_zone_id: 40, protocol: "TCP", port: "ANY", action: "DENY", priority: 100 },
+        { id: 3, source_zone_id: 50, dest_zone_id: 40, protocol: "TCP", port: "ANY", action: "DENY", priority: 100 },
+        { id: 4, source_zone_id: 20, dest_zone_id: 40, protocol: "TCP", port: "5432", action: "ALLOW", priority: 90 },
+        { id: 5, source_zone_id: 99, dest_zone_id: 10, protocol: "SSH", port: "22", action: "ALLOW", priority: 90 },
+        { id: 6, source_zone_id: 10, dest_zone_id: 99, protocol: "SSH", port: "22", action: "DENY", priority: 100 },
+        { id: 7, source_zone_id: 20, dest_zone_id: 100, protocol: "HTTPS", port: "443", action: "ALLOW", priority: 90 },
+        { id: 8, source_zone_id: 100, dest_zone_id: 40, protocol: "TCP", port: "ANY", action: "DENY", priority: 100 }
     ],
     roles: [
-        { id: 1, name: "Guest", permissions: "read:public" },
-        { id: 2, name: "Student", permissions: "read:public,read:student" },
-        { id: 3, name: "Faculty", permissions: "read:public,read:student,read:faculty" },
-        { id: 4, name: "IT Admin", permissions: "all" },
-        { id: 5, name: "Security Analyst", permissions: "read:all" },
-        { id: 6, name: "Cloud Engineer", permissions: "read:cloud,write:cloud" }
+        { id: 1, name: "Faculty", permissions: "Teaching applications, Research repositories" },
+        { id: 2, name: "Application Developer", permissions: "App deployment, Logs, Monitoring" },
+        { id: 3, name: "Network Administrator", permissions: "Router/Switch administration, Security configs" }
     ],
     users: [
-        { id: 1, username: "guest_user", role_id: 1 },
-        { id: 2, username: "alice_student", role_id: 2 },
-        { id: 3, username: "bob_faculty", role_id: 3 },
-        { id: 4, username: "charlie_admin", role_id: 4 },
-        { id: 5, username: "diana_sec", role_id: 5 },
-        { id: 6, username: "eve_cloud", role_id: 6 }
+        { id: 1, username: "prof_smith", role_id: 1 },
+        { id: 2, username: "dev_alice", role_id: 2 },
+        { id: 3, username: "admin_bob", role_id: 3 }
     ],
     incidents: [] as any[]
 };
