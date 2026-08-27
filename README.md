@@ -1,42 +1,31 @@
-# SentinelMesh — Secure Hybrid Datacenter Architecture
+# Cisco Virtual Internship 2026 - Secure Hybrid Data Center
 
-🎉 **[CLICK HERE TO VIEW THE LIVE INTERACTIVE PROJECT]** (https://rishva-404.github.io/Cybersecurity-project/) 🎉
+🎉 **[CLICK HERE TO VIEW THE LIVE INTERACTIVE SIMULATION]** (https://rishva-404.github.io/Cybersecurity-project/) 🎉
 
-SentinelMesh is a specialized cybersecurity simulation designed to solve the challenges of **Secure Hybrid Datacenter Network Architecture**. 
+This repository contains the complete submission for the **Cisco Virtual Internship 2026: Secure Hybrid Data Center Network Architecture** problem statement.
 
-As enterprise applications transition to hybrid workloads (spanning private data centers and public clouds like AWS/GCP), this project demonstrates how to securely orchestrate Kubernetes microservices (EKS/GKE/OpenShift) while balancing simplicity, security, and scale.
+## 📁 Project Deliverables
 
-## 🎯 Problem Statement & Solutions
+All required documentation deliverables from the manual have been completed and are located in the root of this repository:
 
-This platform was built to directly address the following architectural challenges:
-
-### 1. How should IAM function?
-**Solution:** (View the **IAM Simulator**)
-The project implements a Zero-Trust Role-Based Access Control (RBAC) model. Faculty, students, and network engineers are dynamically evaluated based on Clearance Levels. The system ensures that users working remotely or on-campus have secure, uninterrupted access to teaching tools, while simultaneously blocking unauthorized access to sensitive hybrid workloads.
-
-### 2. What kind of security groups must be utilized?
-**Solution:** (View the **Policy Lab**)
-The project demonstrates the use of strict, port-level Security Group policies. Instead of traditional perimeter security, policies are applied between micro-segments. You can toggle ALLOW/DENY rules in real-time to see how security groups govern traffic between the public cloud VPCs and the private datacenter.
-
-### 3. How can applications be segmented in VPCs to mitigate attack spreading?
-**Solution:** (View the **Security Twin** & **Incident Center**)
-The platform maps the infrastructure into distinct Trust Zones (e.g., Campus DMZ, Application VPC, Private Data Center). If a single Kubernetes microservice is compromised, you can use the **Incident Center** to simulate the attack. The custom *Blast Radius Engine* calculates the spread, proving that strict VPC segmentation actively mitigates the attack and prevents it from propagating into the enterprise network.
+1. **Deliverable 1 (Packet Tracer File):** See `Cisco_Packet_Tracer_Configuration_Commands.txt` for the exact CLI scripts used to configure the `.pkt` file.
+2. **Deliverable 2 (Network Design):** See `Deliverable_2_Network_Design.md` (Topology, VLANs, IPs, Routing, ACLs).
+3. **Deliverable 3 (Cloud Security Design):** See `Deliverable_3_Cloud_Security_Design.md` (IAM Roles, AWS Security Groups, VPCs).
+4. **Deliverable 4 (Test Report):** See `Deliverable_4_Test_Report.md` (Connectivity and ACL validation).
+5. **Deliverable 5 (Attack Containment Report):** See `Deliverable_5_Attack_Containment_Report.md` (Analysis of 5 simulated breach scenarios).
 
 ---
 
-## 🧪 How to Test This Project (For Evaluators)
+## 🌐 The Interactive "Security Twin" Web Dashboard
 
-This live environment is a fully functional simulation where you can input data, trigger attacks, and observe how the hybrid security architecture responds.
+To supplement the Cisco Packet Tracer file and provide a stunning visual demonstration of the Cloud Security concepts (VPCs, IAM, and Kubernetes segmentation), a custom **React-based Web Dashboard** was built.
 
-1. **Visualize the Network Topology:** Navigate to the **Security Twin** tab to view the interactive node-graph mapping the infrastructure across 7 security zones. Green lines represent active security group rules.
-2. **Simulate a Cyberattack:** Navigate to the **Incident Center** tab. Click **"Simulate New Incident"** to watch the Blast Radius Engine calculate how segmentation limits the spread of malware.
-3. **Evaluate Access Control:** Navigate to the **IAM Simulator** tab. Select a User Role (e.g., Faculty) and a Target Asset (e.g., Database VPC) to see how hybrid IAM policies enforce Least Privilege.
+**Testing the Web Dashboard:**
+1. **Security Twin:** Visualizes the network architecture (VLAN 10, VLAN 20, Cloud App Network, etc.) as an interactive map.
+2. **Incident Center:** Proves Deliverable 5 (Attack Containment). If you simulate a "Compromised Application" on the Cloud App, the *Blast Radius Engine* proves the ACLs prevent the malware from reaching the Database VLAN.
+3. **IAM Simulator:** Proves Deliverable 3 (Cloud Security Design). Select the "Faculty" role and try to access the "Database" to see the Zero-Trust RBAC system explicitly DENY the connection based on the security policy.
 
-## 🛠️ Tech Stack & Architecture
-
+## 🛠️ Tech Stack (Web Dashboard)
 - **Frontend:** React 18, TypeScript, Tailwind CSS
-- **Visualization:** React Flow (for node-based network mapping)
-- **Data Engine:** Serverless Simulation Engine (TypeScript implementation of the Blast Radius Algorithm)
-- **Deployment:** GitHub Pages
-
-*Note: This repository contains the complete source code. The live demo has been compiled into a serverless Edge application for seamless browser execution and evaluation.*
+- **Visualization:** React Flow
+- **Hosting:** GitHub Pages
